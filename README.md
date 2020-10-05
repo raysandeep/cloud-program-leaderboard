@@ -13,6 +13,7 @@
 - [x]  Scrape Public Profiles within seconds
 - [x]  Cron Job to update DB
 - [x]  Docker Support
+- [x]  Heroku Support
 
 <br>
 
