@@ -45,28 +45,11 @@ def GetCountAndResourcesDone(URL):
 @shared_task
 def summary():
     print("Starting scrap")
-    for  i in settings.USERS_URLS:
-        try:
-            data = GetCountAndResourcesDone(i)
-        except:
-            data = {
-                "quests":[],
-                "dp":'',
-                "name":''
-            }
-        user = UserModel.objects.filter(qwiklabs_id=i)
-        if user.exists():
-            user = user[0]
-            user.quests_status = len(data['quests'])
-            user.quests = data['quests']
-            user.name = data['name']
-            user.dp = data['dp']
-        else:
-            user = UserModel()
-            user.qwiklabs_id = i
-            user.quests_status = len(data['quests'])
-            user.quests = data['quests']
-            user.name = data['name']
-            user.dp = data['dp']
+    users = UserModel.objects.all()
+    for  i in range(users.count()):
+        user = users[i]
+        data = GetCountAndResourcesDone(user.qwiklabs_id)   
+        user.quests_status = len(data['quests'])
+        user.quests = data['quests']
         user.save()
         print(i)
